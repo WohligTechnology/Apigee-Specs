@@ -45,7 +45,6 @@ if (program.generate) {
             console.log("Test cases for " + apiName + " generated")
         } else {
             fs.mkdirSync(path + "/apigeefromspecs")
-            fs.mkdirSync(path + "/apigeefromspecs/specs.yaml")
             fs.writeFileSync(path + "/apigeefromspecs/specs.yaml", yamlFile)
             console.log("Test cases for " + apiName + " generated")
         }
