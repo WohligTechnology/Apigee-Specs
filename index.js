@@ -33,14 +33,56 @@ if (program.generate) {
     var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
     var gitci = fs.readFileSync(__dirname + "/lib/.gitlab-ci.yml")
     var yamlFile = fs.readFileSync(__dirname + "/lib/specs.yaml")
-    fs.exists(path + "/apigeefromspecs", function(isExist) {
-        if (isExist) {
-            fs.writeFileSync(path + "/apigeefromspecs/specs.yaml", yamlFile)
-            console.log("specs.yaml file is replaced.")
-        } else {
-            fs.mkdirSync(path + "/apigeefromspecs")
-            fs.writeFileSync(path + "/apigeefromspecs/specs.yaml", yamlFile)
-            console.log("specs.yaml file is created.")
+
+    async.waterfall(
+        [
+            function(callback) {
+                fs.exists(path + "/apigeefromspecs", function(isExist) {
+                    if (isExist) {
+                        console.log("apigeefromspecs folder already exist")
+                        callback()
+                    } else {
+                        fs.mkdirSync(path + "/apigeefromspecs")
+                        console.log("apigeefromspecs folder created")
+                        callback()
+                    }
+                })
+            },
+            function(callback) {
+                async.parallel(
+                    {
+                        specfile: function(callback) {
+                            fs.writeFileSync(
+                                path + "/apigeefromspecs/specs.yaml",
+                                yamlFile
+                            )
+                            console.log("specs.yaml file created")
+                        },
+                        gitifil: function(callback) {
+                            fs.writeFileSync(
+                                path + "/apigeefromspecs/.gitignore",
+                                gitignore
+                            )
+                            console.log("gitignore file created")
+                        },
+                        gitlab: function(callback) {
+                            fs.writeFileSync(
+                                path + "/apigeefromspecs/.gitlab-ci.yml",
+                                gitci
+                            )
+                            console.log("gitlab-ci.yml file created")
+                        }
+                    },
+                    callback
+                )
+            }
+        ],
+        function(err, data) {
+            if (err) {
+                callback(err)
+            } else {
+                callback()
+            }
         }
-    })
+    )
 }
