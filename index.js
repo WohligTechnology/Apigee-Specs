@@ -23,21 +23,19 @@ global.log = function(data) {
 }
 
 program
-    .version("0.0.2")
+    .version("0.0.3")
     .option("-g, --generate [path]", "Generate Frontend Framework")
     .parse(process.argv)
 
 if (program.generate) {
-    console.log("version 1 : ", program.generate)
+    console.log("Creating project at path : ", program.generate)
     var path = program.generate
     var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
     var gitci = fs.readFileSync(__dirname + "/lib/.gitlab-ci.yml")
     var yamlFile = fs.readFileSync(__dirname + "/lib/specs.yaml")
-    // var fileName = apiName + "/" + apiName + "Api.js"
     fs.exists(path + "/apigeefromspecs", function(isExist) {
         if (isExist) {
             fs.writeFileSync(path + "/apigeefromspecs/specs.yaml", yamlFile)
-
             console.log("specs.yaml file is replaced.")
         } else {
             fs.mkdirSync(path + "/apigeefromspecs")
