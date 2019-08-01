@@ -28,43 +28,26 @@ program
     .parse(process.argv)
 
 if (program.generate) {
-    console.log(program.generate)
+    console.log("version 1 : ", program.generate)
+    var path = program.generate
     var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
     var gitci = fs.readFileSync(__dirname + "/lib/.gitlab-ci.yml")
     var yamlFile = fs.readFileSync(__dirname + "/lib/specs.yaml")
-    var fileName = apiName + "/" + apiName + "Api.js"
-    // fs.exists("./test", function(isExist) {
-    //     if (isExist) {
-    //         fs.exists("./test/" + apiName, function(isExist) {
-    //             if (isExist) {
-    //                 console.log(
-    //                     "Test cases for " + apiName + " api already exists"
-    //                 )
-    //             } else {
-    //                 fs.mkdirSync("./test/" + apiName)
-    //                 api = _.replace(api, new RegExp("New", "g"), apiName)
-    //                 var write = fs.writeFileSync("test/" + fileName, api)
-    //                 var appenddata =
-    //                     '\nrequire("./' +
-    //                     apiName +
-    //                     "/" +
-    //                     apiName +
-    //                     "Api.js" +
-    //                     '")'
-    //                 fs.appendFileSync("test/test.js", appenddata)
-    //                 console.log("Test cases for " + apiName + " generated")
-    //             }
-    //         })
-    //     } else {
-    //         fs.mkdirSync("./test")
-    //         fs.mkdirSync("./test/" + apiName)
-    //         api = _.replace(api, new RegExp("New", "g"), apiName)
-    //         var write = fs.writeFileSync("test/" + fileName, api)
-    //         var write = fs.writeFileSync("test/test.js", test)
-    //         var appenddata =
-    //             'require("./' + apiName + "/" + apiName + "Api.js" + '")'
-    //         fs.appendFileSync("test/test.js", appenddata)
-    //         console.log("Test cases for " + apiName + " generated")
-    //     }
-    // })
+    // var fileName = apiName + "/" + apiName + "Api.js"
+    fs.exists(path + "/apigeefromspecs", function(isExist) {
+        if (isExist) {
+            fs.mkdirSync(path + "/apigeefromspecs")
+            api = _.replace(api, new RegExp("New", "g"), apiName)
+            var write = fs.writeFileSync("test/" + fileName, api)
+            var appenddata =
+                '\nrequire("./' + apiName + "/" + apiName + "Api.js" + '")'
+            fs.appendFileSync("test/test.js", appenddata)
+            console.log("Test cases for " + apiName + " generated")
+        } else {
+            fs.mkdirSync(path + "/apigeefromspecs")
+            fs.mkdirSync(path + "/apigeefromspecs/specs.yaml")
+            fs.writeFileSync(path + "/apigeefromspecs/specs.yaml", yamlFile)
+            console.log("Test cases for " + apiName + " generated")
+        }
+    })
 }
