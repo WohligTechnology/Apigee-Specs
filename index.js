@@ -12,6 +12,9 @@ var downloadGit = require("download-github-repo")
 global.blue = function(data) {
     console.log(chalk.blue(data))
 }
+global.yellow = function(data) {
+    console.log(chalk.yellow(data))
+}
 global.red = function(data) {
     console.log(chalk.red(data))
 }
@@ -24,7 +27,7 @@ global.log = function(data) {
 
 program
     .version("0.0.3")
-    .option("-g, --generate [path]", "Generate Frontend Framework")
+    .option("-g, --generate [foldername]", "Generate Frontend Framework")
     .parse(process.argv)
 
 if (program.generate) {
@@ -33,17 +36,22 @@ if (program.generate) {
     var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
     var gitci = fs.readFileSync(__dirname + "/lib/.gitlab-ci.yml")
     var yamlFile = fs.readFileSync(__dirname + "/lib/specs.yaml")
-
+    var chkexist = false
     async.waterfall(
         [
             function(callback) {
-                fs.exists(path + "/apigeefromspecs", function(isExist) {
+                fs.exists(path, function(isExist) {
                     if (isExist) {
-                        console.log("apigeefromspecs folder already exist")
+                        chkexist = true
+                        console.log(
+                            chalk.red("apigeefromspecs folder already exist")
+                        )
                         callback()
                     } else {
-                        fs.mkdirSync(path + "/apigeefromspecs")
-                        console.log("apigeefromspecs folder created")
+                        fs.mkdirSync(path)
+                        console.log(
+                            chalk.green("apigeefromspecs folder created")
+                        )
                         callback()
                     }
                 })
@@ -52,25 +60,40 @@ if (program.generate) {
                 async.parallel(
                     {
                         specfile: function(callback) {
-                            fs.writeFileSync(
-                                path + "/apigeefromspecs/specs.yaml",
-                                yamlFile
-                            )
-                            console.log("specs.yaml file created")
+                            fs.writeFileSync(path + "/specs.yaml", yamlFile)
+                            if (chkexist) {
+                                console.log(
+                                    chalk.yellow("specs.yaml file replaced")
+                                )
+                            } else {
+                                console.log(
+                                    chalk.green("specs.yaml file created")
+                                )
+                            }
                         },
                         gitifil: function(callback) {
-                            fs.writeFileSync(
-                                path + "/apigeefromspecs/.gitignore",
-                                gitignore
-                            )
-                            console.log("gitignore file created")
+                            fs.writeFileSync(path + "/.gitignore", gitignore)
+                            if (chkexist) {
+                                console.log(
+                                    chalk.yellow("gitignore file replaced")
+                                )
+                            } else {
+                                console.log(
+                                    chalk.green("gitignore file created")
+                                )
+                            }
                         },
                         gitlab: function(callback) {
-                            fs.writeFileSync(
-                                path + "/apigeefromspecs/.gitlab-ci.yml",
-                                gitci
-                            )
-                            console.log("gitlab-ci.yml file created")
+                            fs.writeFileSync(path + "/.gitlab-ci.yml", gitci)
+                            if (chkexist) {
+                                console.log(
+                                    chalk.yellow("gitlab-ci.yml file replaced")
+                                )
+                            } else {
+                                console.log(
+                                    chalk.green("gitlab-ci.yml file created")
+                                )
+                            }
                         }
                     },
                     callback
