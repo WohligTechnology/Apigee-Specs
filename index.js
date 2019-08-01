@@ -43,15 +43,11 @@ if (program.generate) {
                 fs.exists(path, function(isExist) {
                     if (isExist) {
                         chkexist = true
-                        console.log(
-                            chalk.red("apigeefromspecs folder already exist")
-                        )
+                        console.log(chalk.red(path + " folder already exist"))
                         callback()
                     } else {
                         fs.mkdirSync(path)
-                        console.log(
-                            chalk.green("apigeefromspecs folder created")
-                        )
+                        console.log(chalk.green(path + " folder created"))
                         callback()
                     }
                 })
@@ -79,7 +75,7 @@ if (program.generate) {
                                 )
                             } else {
                                 console.log(
-                                    chalk.green("gitignore file created")
+                                    chalk.green(".gitignore file created")
                                 )
                             }
                         },
@@ -87,7 +83,7 @@ if (program.generate) {
                             fs.writeFileSync(path + "/.gitlab-ci.yml", gitci)
                             if (chkexist) {
                                 console.log(
-                                    chalk.yellow("gitlab-ci.yml file replaced")
+                                    chalk.yellow(".gitlab-ci.yml file replaced")
                                 )
                             } else {
                                 console.log(
