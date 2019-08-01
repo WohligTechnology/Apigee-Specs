@@ -23,7 +23,7 @@ global.log = function(data) {
 }
 
 program
-    .version("0.0.17")
+    .version("0.0.1")
     .option("-g, --generate [path]", "Generate Frontend Framework")
     .parse(process.argv)
 
