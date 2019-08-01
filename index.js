@@ -31,7 +31,7 @@ if (program.generate) {
     console.log(program.generate)
     var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
     var gitci = fs.readFileSync(__dirname + "/lib/.gitlab-ci.yml")
-    var yamlFile = fs.readFileSync(__dirname + "/lib/.specs.yaml")
+    var yamlFile = fs.readFileSync(__dirname + "/lib/specs.yaml")
     var fileName = apiName + "/" + apiName + "Api.js"
     // fs.exists("./test", function(isExist) {
     //     if (isExist) {
