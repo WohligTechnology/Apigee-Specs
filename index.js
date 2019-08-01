@@ -23,7 +23,7 @@ global.log = function(data) {
 }
 
 program
-    .version("0.0.1")
+    .version("0.0.2")
     .option("-g, --generate [path]", "Generate Frontend Framework")
     .parse(process.argv)
 
@@ -36,17 +36,13 @@ if (program.generate) {
     // var fileName = apiName + "/" + apiName + "Api.js"
     fs.exists(path + "/apigeefromspecs", function(isExist) {
         if (isExist) {
-            fs.mkdirSync(path + "/apigeefromspecs")
-            api = _.replace(api, new RegExp("New", "g"), apiName)
-            var write = fs.writeFileSync("test/" + fileName, api)
-            var appenddata =
-                '\nrequire("./' + apiName + "/" + apiName + "Api.js" + '")'
-            fs.appendFileSync("test/test.js", appenddata)
-            console.log("Test cases for " + apiName + " generated")
+            fs.writeFileSync(path + "/apigeefromspecs/specs.yaml", yamlFile)
+
+            console.log("specs.yaml file is replaced.")
         } else {
             fs.mkdirSync(path + "/apigeefromspecs")
             fs.writeFileSync(path + "/apigeefromspecs/specs.yaml", yamlFile)
-            console.log("Test cases for " + apiName + " generated")
+            console.log("specs.yaml file is created.")
         }
     })
 }
