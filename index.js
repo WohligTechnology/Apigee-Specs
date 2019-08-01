@@ -71,7 +71,7 @@ if (program.generate) {
                             fs.writeFileSync(path + "/.gitignore", gitignore)
                             if (chkexist) {
                                 console.log(
-                                    chalk.yellow("gitignore file replaced")
+                                    chalk.yellow(".gitignore file replaced")
                                 )
                             } else {
                                 console.log(
@@ -87,7 +87,7 @@ if (program.generate) {
                                 )
                             } else {
                                 console.log(
-                                    chalk.green("gitlab-ci.yml file created")
+                                    chalk.green(".gitlab-ci.yml file created")
                                 )
                             }
                         }
