@@ -1,7 +1,7 @@
 {
     "name": "TUI",
     "version": "0.1.0",
-    "description": "TUI Framework",
+    "description": "Apigee Generator",
     "main": "index.js",
     "scripts": {
         "test": "tuispecs"
