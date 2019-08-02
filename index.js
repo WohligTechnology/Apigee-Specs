@@ -33,7 +33,7 @@ program
 if (program.generate) {
     console.log("Creating project at path : ", program.generate)
     var path = program.generate
-    var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
+    // var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
     var gitci = fs.readFileSync(__dirname + "/lib/.gitlab-ci.yml")
     var yamlFile = fs.readFileSync(__dirname + "/lib/specs.yaml")
     var chkexist = false
@@ -67,18 +67,18 @@ if (program.generate) {
                                 )
                             }
                         },
-                        gitifil: function(callback) {
-                            fs.writeFileSync(path + "/.gitignore", gitignore)
-                            if (chkexist) {
-                                console.log(
-                                    chalk.yellow(".gitignore file replaced")
-                                )
-                            } else {
-                                console.log(
-                                    chalk.green(".gitignore file created")
-                                )
-                            }
-                        },
+                        // gitifil: function(callback) {
+                        //     fs.writeFileSync(path + "/.gitignore", gitignore)
+                        //     if (chkexist) {
+                        //         console.log(
+                        //             chalk.yellow(".gitignore file replaced")
+                        //         )
+                        //     } else {
+                        //         console.log(
+                        //             chalk.green(".gitignore file created")
+                        //         )
+                        //     }
+                        // },
                         gitlab: function(callback) {
                             fs.writeFileSync(path + "/.gitlab-ci.yml", gitci)
                             if (chkexist) {
