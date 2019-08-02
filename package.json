@@ -1,6 +1,6 @@
 {
-    "name": "TUI",
-    "version": "0.1.0",
+    "name": "tui-apigee-generator",
+    "version": "0.0.1",
     "description": "Apigee Generator",
     "main": "index.js",
     "scripts": {
