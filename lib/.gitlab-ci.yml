@@ -1,29 +1,37 @@
 stages:
-  - test
-  - Lint OpenAPI
-  - Generate and Deploy to APIGEE
+    - Generate and Deploy to APIGEE
+    # - test
+    - Create Api Doc on Drupal
 
 ## Load a node.js image, install dockerlint and lint all Dockerfiles
-est_variable:
-  stage: test
-  script:
-    - echo $BASE_URI # calls a predefined variable
-    - echo $ORGANIZATION # calls a custom variable of type `env_var`
-    - echo $ENVIRONMENTS # calls a custom variable of type `file` that contains the path to the temp file
-    - echo $VIRTUAL_HOSTS
-    - echo $USER_NAME
-    - echo $PASSWORD
-
-linting:
-  stage: Lint OpenAPI
-  image: node:10-alpine
-  script:
-    - yarn global add yaml-lint
-    - yamllint specs.yaml
 
 deploy:
-  stage: Generate and Deploy to APIGEE
-  image: node:10
-  script:
-    - yarn global add openapi2apigee
-    - openapi2apigee generateApi specs -s specs.yaml -d ./ -b  $BASE_URI  -o  $ORGANIZATION  -e  $ENVIRONMENTS  -v $VIRTUAL_HOSTS  -u  $USER_NAME  -p  $PASSWORD  -D
+    stage: Generate and Deploy to APIGEE
+    image: node:10
+    script:
+        - yarn global add openapi2apigee
+        - openapi2apigee generateApi $PROXY_NAME -s specs.yaml -d ./ -b  $BASE_URI  -o  $ORGANIZATION  -e  $ENVIRONMENTS  -v $VIRTUAL_HOSTS  -u  $USER_NAME  -p  $PASSWORD  -D
+
+# test_variable:
+#   stage: test
+#   script:
+#     - echo $BASE_URI # calls a predefined variable
+#     - echo $ORGANIZATION # calls a custom variable of type `env_var`
+#     - echo $ENVIRONMENTS # calls a custom variable of type `file` that contains the path to the temp file
+#     - echo $VIRTUAL_HOSTS
+#     - echo $USER_NAME
+#     - echo $PASSWORD
+#     - echo $PROXY_NAME
+#     - echo $DRUPAL_USERNAME
+#     - echo $DRUPAL_PASSWORD
+#     - echo $DRUPAL_URL
+#     - echo $DRUPAL_SPEC_URL
+#     - echo $DRUPAL_APIDOC_NAME
+#     - echo $DRUPAL_APIDOC_DESC
+
+Create API Docs:
+    stage: Create Api Doc on Drupal
+    image: node:10
+    script:
+        - yarn install
+        - node app.js $DRUPAL_USERNAME $DRUPAL_PASSWORD $DRUPAL_URL "$DRUPAL_APIDOC_NAME" "$DRUPAL_APIDOC_DESC"
