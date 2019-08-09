@@ -36,6 +36,7 @@ if (program.generate) {
     // var gitignore = fs.readFileSync(__dirname + "/lib/.gitignore")
     var gitci = fs.readFileSync(__dirname + "/lib/.gitlab-ci.yml")
     var yamlFile = fs.readFileSync(__dirname + "/lib/specs.yaml")
+    var appjs = fs.readFileSync(__dirname + "/lib/app.js")
     var chkexist = false
     async.waterfall(
         [
@@ -89,6 +90,16 @@ if (program.generate) {
                                 console.log(
                                     chalk.green(".gitlab-ci.yml file created")
                                 )
+                            }
+                        },
+                        appfile: function(callback) {
+                            fs.writeFileSync(path + "/app.js", appjs)
+                            if (chkexist) {
+                                console.log(
+                                    chalk.yellow("app.js file replaced")
+                                )
+                            } else {
+                                console.log(chalk.green("app.js file created"))
                             }
                         }
                     },
